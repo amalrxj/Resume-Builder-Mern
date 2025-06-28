@@ -14,11 +14,17 @@ const generateToken = (userId) => {
 // @access Public
 const registerUser = async (req, res) => {
     try {
+
         const { name, email, password, profileImageUrl } = req.body;
         const detectedGender = req.detectedGender;
 
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'Name, email, and password are required' });
+        }
+
         // Check if user already exists
-        const userExists = await User.findOne({ email });
+        const normalizedEmail = email.toLowerCase().trim();
+        const userExists = await User.findOne({ email: normalizedEmail });
         if (userExists) {
             return res.status(400).json({ message: 'User already exists' });
         }
@@ -28,23 +34,28 @@ const registerUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Set default profile image URL if not provided
-        let finalProfileImageUrl = profileImageUrl;
-        if (!finalProfileImageUrl) {
-            if (detectedGender === 'male') {
-                finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/v1746080316/task-manager/default/avatar_male.png';
-            } else if (detectedGender === 'female') {
-                finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/v1746080316/task-manager/default/avatar_female.png';
-            } else {
-                finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/f_auto,q_auto/v1/task-manager/default/avatar_male'; // For unknown or non-binary names
+        // Default profile image assignment
+        let resolvedProfileImageUrl = profileImageUrl;
+        if (!resolvedProfileImageUrl) {
+            switch (detectedGender) {
+                case 'male':
+                    resolvedProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/v1746080316/resume-builder/default/avatar_male.png';
+                    break;
+                case 'female':
+                    resolvedProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/v1746080316/resume-builder/default/avatar_female.png';
+                    break;
+                default:
+                    resolvedProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/t_avatar_neutral/v1751110873/resume-builder/default/avatar_neutral.png';
+                    break;
             }
         }
 
         // Create user
         const user = await User.create({
             name,
-            email,
+            email: normalizedEmail,
             password: hashedPassword,
-            profileImageUrl: finalProfileImageUrl,
+            profileImageUrl: resolvedProfileImageUrl,
         });
 
         res.status(201).json({ _id: user._id, name: user.name, email: user.email, profileImageUrl: user.profileImageUrl, token: generateToken(user._id) });
@@ -59,10 +70,12 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
         // Check for user email
-        const user
-            = await User.findOne({ email });
+        const normalizedEmail = email.toLowerCase().trim();
+        const user = await User.findOne({ email: normalizedEmail });
         if (!user) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
@@ -84,7 +97,6 @@ const loginUser = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
-
 }
 
 // @desc Get user profile

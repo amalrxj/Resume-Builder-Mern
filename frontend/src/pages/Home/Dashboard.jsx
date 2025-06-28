@@ -21,7 +21,7 @@ const Dashboard = () => {
     fetchAllResumes();
   }, []);
 
-  return <div>Dashboard Page</div>;
+  return <DashboardLayout></DashboardLayout>;
 };
 
 export default Dashboard;
