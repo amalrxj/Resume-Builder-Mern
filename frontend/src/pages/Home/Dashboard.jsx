@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -13,7 +12,6 @@ const Dashboard = () => {
     try {
       const response = await axiosInstance.get(API_PATHS.RESUME.GET_ALL);
       setAllResumes(response.data);
-      console.log("Fetched resumes:", response.data);
     } catch (error) {
       console.error("Error fetching resumes:", error);
     }

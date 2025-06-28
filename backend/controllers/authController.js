@@ -31,9 +31,9 @@ const registerUser = async (req, res) => {
         let finalProfileImageUrl = profileImageUrl;
         if (!finalProfileImageUrl) {
             if (detectedGender === 'male') {
-                finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/f_auto,q_auto/v1/task-manager/default/avatar_male';
+                finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/v1746080316/task-manager/default/avatar_male.png';
             } else if (detectedGender === 'female') {
-                finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/f_auto,q_auto/v1/task-manager/default/avatar_female';
+                finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/v1746080316/task-manager/default/avatar_female.png';
             } else {
                 finalProfileImageUrl = 'https://res.cloudinary.com/da4z6oxuc/image/upload/f_auto,q_auto/v1/task-manager/default/avatar_male'; // For unknown or non-binary names
             }
