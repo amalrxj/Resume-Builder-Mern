@@ -7,7 +7,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "resume-builder",
     allowed_formats: ["jpg", "png", "jpeg"],
-    transformation: [{ width: 300, height: 300, crop: "limit" }],
+    transformation: [{ width: 200, height: 200, crop: "fill" }],
   },
 });
 

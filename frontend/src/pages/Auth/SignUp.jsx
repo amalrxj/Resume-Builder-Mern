@@ -1,51 +1,65 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/user_Context";
+import uploadImage from "../../utils/uploadImage";
 
 const SignUp = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { updateUser } = useContext(UserContext);
 
   const [error, setError] = useState(null);
-
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
     let profileImageUrl = "";
-
     if (!fullName) {
       setError("Please enter your full name");
       return;
     }
-
     if (!validateEmail(email)) {
       setError("Please enter a valid email");
       return;
     }
-
     if (!password || password.length < 8) {
       setError("Please enter a valid password (min 8 characters)");
       return;
     }
-
     setError("");
 
-    // signup api call
     try {
-      console.log("Signup API call with", {
-        fullName,
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
         email,
         password,
         profileImageUrl,
       });
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+        navigate("/dashboard");
+      }
     } catch (error) {
-      setError("Something went wrong. Please try again.", error);
+      if (error.response && error.response.data) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     }
   };
   return (

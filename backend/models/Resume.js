@@ -10,16 +10,16 @@ const ResumeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    thumbnailUrl: {
+    thumbnailLink: {
         type: String,
     },
     template: {
-        type: String,
+        theme: String,
         colorPalette: [String]
     },
     profileInfo: {
-        profileImageUrl: String,
-        name: String,
+        profilePreviewUrl: String,
+        fullName: String,
         designation: String,
         summary: String,
     },
@@ -27,7 +27,7 @@ const ResumeSchema = new mongoose.Schema({
         email: String,
         phone: String,
         location: String,
-        linkedIn: String,
+        linkedin: String,
         github: String,
         website: String,
     },
@@ -57,7 +57,7 @@ const ResumeSchema = new mongoose.Schema({
     certifications: [{
         title: String,
         issuer: String,
-        date: String,
+        year: String,
     }],
     languages: [{
         name: String,

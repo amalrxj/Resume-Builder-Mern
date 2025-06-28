@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
-import HERO_IMG from "../assets/help.png";
+// import HERO_IMG from "../assets/help.png";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
 import Modal from "../components/Modal";
 import REC from "../assets/rec.svg";
 import { Pencil, Eye, Download } from "lucide-react";
+import { UserContext } from "../context/user_Context";
+import ProfileInfoCard from "../components/Cards/ProfileInfoCard";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [currentPage, setCurrentPage] = useState("login");
 
   const handleCTA = () => {
-    setOpenAuthModal(true);
+    if (!user) {
+      setOpenAuthModal(true);
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -22,12 +31,16 @@ const LandingPage = () => {
         {/* Header Section */}
         <header className="flex justify-between items-center">
           <div className="text-2xl font-extrabold text-gray-800">Cvera</div>
-          <button
-            className="bg-purple-100 text-sm font-semibold text-black px-7 py-2.5 rounded-lg hover:bg-gray-800 hover:text-white transition-colors cursor-pointer"
-            onClick={() => setOpenAuthModal(true)}
-          >
-            Login / Sign Up
-          </button>
+          {user ? (
+            <ProfileInfoCard />
+          ) : (
+            <button
+              className="bg-purple-100 text-sm font-semibold text-black px-7 py-2.5 rounded-lg hover:bg-gray-800 hover:text-white transition-colors cursor-pointer"
+              onClick={() => setOpenAuthModal(true)}
+            >
+              Login / Sign Up
+            </button>
+          )}
         </header>
 
         {/* Hero Section */}
@@ -67,7 +80,7 @@ const LandingPage = () => {
         {/* Features Section */}
 
         <section className="mt-5">
-          <p className="text-center text-sm text-gray-500 uppercase tracking-wider mb-2">
+          <p className=" text-center text-xs text-gray-500 uppercase tracking-wider mb-2">
             Our Key Features
           </p>
           <h2 className="text-2xl font-bold text-center mb-10">
@@ -154,7 +167,7 @@ const LandingPage = () => {
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-transform transform hover:-translate-y-1 hover:scale-[1.02] text-center">
-              <h3 className="text-lg font-semibold mb-4">
+              <h3 className="text-xl font-semibold mb-4">
                 One-Click PDF Export
               </h3>
               <div className="flex justify-center mb-4">
@@ -175,13 +188,13 @@ const LandingPage = () => {
                   </svg>
                 </div>
               </div>
-              <p className="text-gray-600">
+              <p className="text-gray-500">
                 Download a{" "}
-                <span className="font-medium text-gray-800">
+                <span className="font-semimedium text-gray-800">
                   polished, high-res PDF
                 </span>{" "}
                 version of your resume
-                <span className="font-medium text-gray-800">
+                <span className="font-semimedium text-gray-800">
                   {" "}
                   instantly
                 </span>{" "}
@@ -192,7 +205,7 @@ const LandingPage = () => {
         </section>
 
         {/* Helpful Resume Tips & Guides */}
-        <section className="max-w-6xl mx-auto mt-20 px-4">
+        {/* <section className="max-w-6xl mx-auto mt-20 px-4">
           <h2 className="text-2xl font-bold text-center mb-10">
             Helpful Resume Tips & Guides
           </h2>
@@ -244,9 +257,9 @@ const LandingPage = () => {
               </a>
             </div>
           </div>
-        </section>
+        </section> */}
 
-        {/* User Testimonials Section */}
+        {/* User Testimonials Section 
         <section className="mt-16">
           <h2 className="text-2xl font-bold text-center mb-8">
             What Our Users Are Saying
@@ -304,7 +317,7 @@ const LandingPage = () => {
               </p>
             </div>
           </div>
-        </section>
+        </section>*/}
 
         {/* Frequently Asked Questions */}
         <section className="max-w-4xl mx-auto mt-16 px-4">
