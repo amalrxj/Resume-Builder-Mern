@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+const argon2 = require('argon2');
 
 // Generate JWT token
 const generateToken = (userId) => {
@@ -30,8 +30,9 @@ const registerUser = async (req, res) => {
         }
 
         // Hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        // const salt = await bcrypt.genSalt(10);
+        // const hashedPassword = await bcrypt.hash(password, salt);
+        const hashedPassword = await argon2.hash(password);
 
         // Set default profile image URL if not provided
         // Default profile image assignment
@@ -81,7 +82,7 @@ const loginUser = async (req, res) => {
         }
 
         // Check for password
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await argon2.verify(user.password, password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid email or password' });
         }

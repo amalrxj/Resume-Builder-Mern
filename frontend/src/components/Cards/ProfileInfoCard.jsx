@@ -1,16 +1,33 @@
 import React from "react";
 import { UserContext } from "../../context/user_Context";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getLightColorFromImage } from "../../utils/helper";
 
 const ProfileInfoCard = () => {
   const { user, clearUser } = useContext(UserContext);
+  const [bgColor, setBgColor] = useState("bg-white");
+  const imgUrl = user?.profileImageUrl || null;
   const navigate = useNavigate();
   const handleLogout = () => {
-    // localStorage.removeItem("token");
+    localStorage.removeItem("token");
     clearUser();
     navigate("/");
   };
+
+
+  useEffect(() => {
+    if (imgUrl) {
+      getLightColorFromImage(imgUrl)
+        .then((color) => {
+          setBgColor(color);
+        })
+        .catch((err) => {
+          setBgColor("bg-white");
+          console.error("Error fetching image color:", err);
+        });
+    }
+  }, [imgUrl]);
 
   return (
     user && (
@@ -19,6 +36,7 @@ const ProfileInfoCard = () => {
           src={user.profileImageUrl}
           alt="image"
           className="w-10 h-10 bg-gray-300 rounded-full mr-3"
+          style={{ backgroundColor: bgColor }}
         />
         <div>
           <div className="font-bold leading-3 text-sm text-gray-800">
