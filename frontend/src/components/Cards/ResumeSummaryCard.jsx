@@ -19,13 +19,13 @@ const ResumeSummaryCard = ({ imgUrl, title, lastUpdated, onSelect }) => {
 
   return (
     <div
-      className="h-[300px] flex flex-col items-center justify-between bg-white rounded-lg border border-gray-200 hover:border-purple-300 overflow-hidden cursor-pointer"
+      className="h-[300px] md:h-[350px] flex flex-col items-center justify-between bg-white rounded-lg border border-gray-200 hover:border-purple-300 overflow-hidden cursor-pointer"
       style={{ backgroundColor: bgColor }}
       onClick={onSelect}
     >
       <div className="p-4">
         {imgUrl ? (
-          <img src={imgUrl} alt="img" className="w-[100%] h-[200px] rounded" />
+          <img src={imgUrl} alt="img" className="w-[100%] h-[250px] rounded" />
         ) : (
           <div></div>
         )}

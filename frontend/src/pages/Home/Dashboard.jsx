@@ -29,9 +29,9 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-7 pt-1 pb-6 px-4 lg:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-7 pt-1 pb-6 px-4 md:px-0">
         <div
-          className="h-[300px] flex flex-col items-center justify-center bg-white rounded-lg border border-purple-100 hover:border-purple-300 hover:bg-purple-50/5 cursor-pointer"
+          className="h-[300px] md:h-[350px] flex flex-col items-center justify-center bg-white rounded-lg border border-purple-100 hover:border-purple-300 hover:bg-purple-50/5 cursor-pointer"
           onClick={() => setOpenCreateModal(true)}
         >
           <div className="w-12 h-12 flex items-center justify-center bg-purple-200/60 rounded-2xl">
