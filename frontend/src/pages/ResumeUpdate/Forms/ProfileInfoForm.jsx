@@ -2,7 +2,7 @@ import React from "react";
 import ProfilePhotoSelector from "../../../components/Inputs/ProfilePhotoSelector";
 import Input from "../../../components/Inputs/Input";
 
-const ProfileInfoForm = ({ profileData, updateSection, onNext }) => {
+const ProfileInfoForm = ({ profileData, updateSection }) => {
   return (
     <div className="px-5 pt-5">
       <h2 className="text-lg font-semibold text-gray-900">

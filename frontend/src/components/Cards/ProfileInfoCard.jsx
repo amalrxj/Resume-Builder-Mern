@@ -10,7 +10,7 @@ const ProfileInfoCard = () => {
   const imgUrl = user?.profileImageUrl || null;
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    // localStorage.removeItem("token");
     clearUser();
     navigate("/");
   };

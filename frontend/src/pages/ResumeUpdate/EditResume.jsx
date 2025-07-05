@@ -17,6 +17,9 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import ProfileInfoForm from "./Forms/ProfileInfoForm";
 import StepProgress from "../../components/StepProgress";
+import ContactInfoForm from "./Forms/ContactInfoForm";
+import WorkExperienceForm from "./Forms/WorkExperienceForm";
+import EducationInfoForm from "./Forms/EducationInfoForm";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -29,7 +32,7 @@ const EditResume = () => {
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState("profile-info");
+  const [currentPage, setCurrentPage] = useState("education-info");
   const [progress, setProgress] = useState(0);
   const [resumeData, setResumeData] = useState({
     title: "",
@@ -130,6 +133,39 @@ const EditResume = () => {
             }}
           />
         );
+
+      case "work-experience":
+        return (
+          <WorkExperienceForm
+            workExperience={resumeData?.workExperience}
+            updateArrayitem={(index, key, value) => {
+              updateArrayitem("workExperience", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("workExperience", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("workExperience", index);
+            }}
+          />
+        );
+
+      case "education-info":
+        return (
+          <EducationInfoForm
+            educationInfo={resumeData?.education}
+            updateArrayitem={(index, key, value) => {
+              updateArrayitem("education", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("education", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("education", index);
+            }}
+          />
+        );
+
       default:
         return null;
     }
@@ -145,11 +181,46 @@ const EditResume = () => {
     }));
   };
 
-  const updateArrayitem = (section, index, key, value) => {};
+  const updateArrayitem = (section, index, key, value) => {
+    setResumeData((prev) => {
+      const updatedArray = [...prev[section]];
 
-  const addArrayItem = (section, newItem) => {};
+      if (key === null) {
+        updatedArray[index] = value;
+      } else {
+        updatedArray[index] = {
+          ...updatedArray[index],
+          [key]: value,
+        };
+      }
+      return {
+        ...prev,
+        [section]: updatedArray,
+      };
+    });
+  };
 
-  const removeArrayItem = (section, index) => {};
+  const addArrayItem = (section, newItem) => {
+    setResumeData((prev) => {
+      const updatedArray = [...prev[section], newItem];
+      return {
+        ...prev,
+        [section]: updatedArray,
+      };
+    });
+  };
+
+  const removeArrayItem = (section, index) => {
+    setResumeData((prev) => {
+      // const updatedArray = prev[section].filter((_, i) => i !== index);
+      const updatedArray = [...prev[section]];
+      updatedArray.splice(index, 1);
+      return {
+        ...prev,
+        [section]: updatedArray,
+      };
+    });
+  };
 
   const fetchResumeDetailsById = async () => {
     try {
