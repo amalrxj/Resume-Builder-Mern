@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
@@ -12,11 +13,11 @@ import {
   LuSave,
   LuTrash2,
 } from "react-icons/lu";
-import toast from "react-hot-toast";
 import TitleInput from "../../components/Inputs/TitleInput";
 import { useReactToPrint } from "react-to-print";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
+import ProfileInfoForm from "./Forms/ProfileInfoForm";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -109,9 +110,41 @@ const EditResume = () => {
 
   const goBack = (e) => {};
 
-  const renderForm = () => {};
+  const renderForm = () => {
+    switch (currentPage) {
+      case "profile-info":
+        return (
+          <ProfileInfoForm
+            profileData={resumeData?.profileInfo}
+            updateData={(key, value) => {
+              updateSection("profileInfo", key, value);
+            }}
+            onNext={validateAndNext}
+          />
+        );
+      case "contact-info":
+        return (
+          <ContactInfoForm
+            contactInfo={resumeData?.contactInfo}
+            updateSection={(key, value) => {
+              updateSection("contactInfo", key, value);
+            }}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
-  const updateSection = (section, key, value) => {};
+  const updateSection = (section, key, value) => {
+    setResumeData((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [key]: value,
+      },
+    }));
+  };
 
   const updateArrayitem = (section, index, key, value) => {};
 
@@ -174,7 +207,7 @@ const EditResume = () => {
     return () => {
       window.removeEventListener("resize", updateBaseWidth);
     };
-  }, [resumeId]);
+  }, []);
 
   return (
     <DashboardLayout>
@@ -186,6 +219,76 @@ const EditResume = () => {
               setResumeData((prevState) => ({ ...prevState, title: value }))
             }
           />
+          <div className="flex items-center gap-4">
+            <button
+              className="btn-small-light"
+              onClick={() => setOpenThemeSelector(true)}
+            >
+              <LuPalette className="text-sm" />
+              <span className="hidden md:block">Change Theme</span>
+            </button>
+            <button className="btn-small-light " onClick={handleDeleteResume}>
+              <LuTrash2 className="text-sm" />
+              <span className="hidden md:block">Delete </span>
+            </button>
+            <button
+              className="btn-small-light"
+              onClick={() => setOpenPreviewModal(true)}
+            >
+              <LuDownload className="text-sm" />
+              <span className="hidden md:block">Preview & Download</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
+            <StepProgress progress={0} />
+            {renderForm()}
+
+            <div className="mx-5">
+              {error && (
+                <div className="flex items-center gap-2 text-xs font-medium text-amber-600 bg-amber-100 px-2 py-0.5 my-1 rounded">
+                  <LuCircleAlert className="text-md" />
+                </div>
+              )}
+              <div className="flex items-end justify-end gap-3 mt-3 mb-5">
+                <button
+                  className="btn-small-light"
+                  onClick={goBack}
+                  disabled={loading}
+                >
+                  <LuArrowLeft className="text-md" />
+                  Back
+                </button>
+                <button
+                  className="btn-small-light"
+                  onClick={uploadResumeImages}
+                  disabled={loading}
+                >
+                  <LuSave className="text-md" />
+                  {loading ? "Saving..." : "Save & Next"}
+                </button>
+                <button
+                  className="btn-small"
+                  onClick={validateAndNext}
+                  disabled={loading}
+                >
+                  {currentPage === "additionalInfo" && (
+                    <LuDownload className="text-md" />
+                  )}
+                  {currentPage === "additionalInfo"
+                    ? "Preview & Download"
+                    : "Next"}
+                  {currentPage !== "additionalInfo" && (
+                    <LuArrowLeft className="text-md rotate-180" />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-[100vh]" ref={resumeRef}></div>
         </div>
       </div>
     </DashboardLayout>

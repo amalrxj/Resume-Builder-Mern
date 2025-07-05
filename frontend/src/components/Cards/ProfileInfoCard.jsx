@@ -6,7 +6,7 @@ import { getLightColorFromImage } from "../../utils/helper";
 
 const ProfileInfoCard = () => {
   const { user, clearUser } = useContext(UserContext);
-  const [bgColor, setBgColor] = useState("bg-white");
+  const [bgColor, setBgColor] = useState("#ffffff");
   const imgUrl = user?.profileImageUrl || null;
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -15,15 +15,14 @@ const ProfileInfoCard = () => {
     navigate("/");
   };
 
-
   useEffect(() => {
     if (imgUrl) {
       getLightColorFromImage(imgUrl)
         .then((color) => {
-          setBgColor(color);
+          setBgColor(color || "#ffffff");
         })
         .catch((err) => {
-          setBgColor("bg-white");
+          setBgColor("#ffffff");
           console.error("Error fetching image color:", err);
         });
     }
