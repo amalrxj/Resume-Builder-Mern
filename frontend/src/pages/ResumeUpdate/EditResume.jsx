@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -18,6 +16,7 @@ import { useReactToPrint } from "react-to-print";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import ProfileInfoForm from "./Forms/ProfileInfoForm";
+import StepProgress from "../../components/StepProgress";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -116,7 +115,7 @@ const EditResume = () => {
         return (
           <ProfileInfoForm
             profileData={resumeData?.profileInfo}
-            updateData={(key, value) => {
+            updateSection={(key, value) => {
               updateSection("profileInfo", key, value);
             }}
             onNext={validateAndNext}
