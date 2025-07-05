@@ -9,7 +9,6 @@ const ProfilePhotoSelector = ({ image, setImage, setPreview, preview }) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-
       const preview = URL.createObjectURL(file);
       if (setPreview) {
         setPreview(preview);
