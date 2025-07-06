@@ -22,6 +22,8 @@ import ContactInfoForm from "./Forms/ContactInfoForm";
 import WorkExperienceForm from "./Forms/WorkExperienceForm";
 import EducationInfoForm from "./Forms/EducationInfoForm";
 import SkillsInfoForm from "./Forms/SkillsInfoForm";
+import CertificationsInfoForm from "./Forms/CertificationsInfoForm";
+import ProjectsInfoForm from "./Forms/ProjectsInfoForm";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -34,7 +36,7 @@ const EditResume = () => {
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState("skills");
+  const [currentPage, setCurrentPage] = useState("certifications");
   const [progress, setProgress] = useState(0);
   const [resumeData, setResumeData] = useState({
     title: "",
@@ -180,6 +182,38 @@ const EditResume = () => {
             }}
             removeArrayItem={(index) => {
               removeArrayItem("skills", index);
+            }}
+          />
+        );
+
+      case "projects":
+        return (
+          <ProjectsInfoForm
+            projectsInfo={resumeData?.projects}
+            updateArrayitem={(index, key, value) => {
+              updateArrayitem("projects", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("projects", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("projects", index);
+            }}
+          />
+        );
+
+      case "certifications":
+        return (
+          <CertificationsInfoForm
+            certificationsInfo={resumeData?.certifications}
+            updateArrayitem={(index, key, value) => {
+              updateArrayitem("certifications", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("certifications", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("certifications", index);
             }}
           />
         );

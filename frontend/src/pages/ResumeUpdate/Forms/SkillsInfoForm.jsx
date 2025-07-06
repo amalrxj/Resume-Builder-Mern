@@ -12,7 +12,7 @@ const SkillsInfoForm = ({
   return (
     <div className="px-5 pt-3">
       <h2 className=" text-lg font-semibold text-gray-900 ">
-        Skills Information
+        Skills 
       </h2>
       <div className="mt-4 flex flex-col gap-4 mb-3">
         {skillsInfo.map((skill, index) => (
