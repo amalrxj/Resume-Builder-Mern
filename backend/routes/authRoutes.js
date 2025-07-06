@@ -17,7 +17,7 @@ router.post("/upload-image", upload.single("image"), (req, res) => {
     const rawUrl = req.file.path; // this is the original Cloudinary URL
     const optimizedUrl = rawUrl.replace(
         "/upload/",
-        "/upload/w_200,h_200,c_fill,f_auto,q_auto/"
+        "/upload/w_100,h_100,c_fill,f_auto,q_auto/"
     );
     return res.status(200).json({ imageUrl: optimizedUrl });
 });

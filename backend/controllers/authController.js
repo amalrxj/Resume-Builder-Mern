@@ -58,7 +58,6 @@ const registerUser = async (req, res) => {
             password: hashedPassword,
             profileImageUrl: resolvedProfileImageUrl,
         });
-
         res.status(201).json({ _id: user._id, name: user.name, email: user.email, profileImageUrl: user.profileImageUrl, token: generateToken(user._id) });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });

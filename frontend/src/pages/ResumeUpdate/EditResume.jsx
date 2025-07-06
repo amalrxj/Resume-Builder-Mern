@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ import StepProgress from "../../components/StepProgress";
 import ContactInfoForm from "./Forms/ContactInfoForm";
 import WorkExperienceForm from "./Forms/WorkExperienceForm";
 import EducationInfoForm from "./Forms/EducationInfoForm";
+import SkillsInfoForm from "./Forms/SkillsInfoForm";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -32,7 +34,7 @@ const EditResume = () => {
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState("education-info");
+  const [currentPage, setCurrentPage] = useState("skills");
   const [progress, setProgress] = useState(0);
   const [resumeData, setResumeData] = useState({
     title: "",
@@ -162,6 +164,22 @@ const EditResume = () => {
             }}
             removeArrayItem={(index) => {
               removeArrayItem("education", index);
+            }}
+          />
+        );
+
+      case "skills":
+        return (
+          <SkillsInfoForm
+            skillsInfo={resumeData?.skills}
+            updateArrayitem={(index, key, value) => {
+              updateArrayitem("skills", index, key, value);
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("skills", newItem);
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("skills", index);
             }}
           />
         );

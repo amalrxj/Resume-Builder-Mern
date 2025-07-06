@@ -14,7 +14,7 @@ const WorkExperienceForm = ({
       <div className="mt-4 flex flex-col gap-4 mb-3">
         {workExperience.map((experience, index) => (
           <div
-            className="border border-gray-200 rounded-md p-4 relative"
+            className="border border-gray-200/80 rounded-md p-4 relative"
             key={index}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -70,7 +70,7 @@ const WorkExperienceForm = ({
             {workExperience.length > 1 && (
               <button
                 type="button"
-                className="absolute top-3 right-3 p-1 text-sm text-red-600 hover:underline cursor-pointer"
+                className="absolute top-3 right-3 text-sm text-red-600 hover:underline cursor-pointer"
                 onClick={() => removeArrayItem(index)}
               >
                 <LuTrash2 className="w-4 h-4" />
