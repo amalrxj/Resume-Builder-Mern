@@ -69,6 +69,7 @@ const Login = ({ setCurrentPage }) => {
           placeholder="Password"
           label="Password"
           type="password"
+          autoComplete="current-password"
         />
 
         {error && (

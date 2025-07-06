@@ -99,6 +99,7 @@ const SignUp = ({ setCurrentPage }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type="password"
+            autoComplete="new-password"
           />
           {error && (
             <p className="text-red-500 text-xs pb-2.5" role="alert">
