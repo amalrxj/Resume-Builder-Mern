@@ -320,7 +320,7 @@ const LandingPage = () => {
         </section>*/}
 
         {/* Frequently Asked Questions */}
-        <section className="max-w-4xl mx-auto mt-16 px-4">
+        {/* <section className="max-w-4xl mx-auto mt-16 px-4">
           <h2 className="text-2xl font-bold text-center mb-8">
             Frequently Asked Questions
           </h2>
@@ -398,7 +398,7 @@ const LandingPage = () => {
               </p>
             </details>
           </div>
-        </section>
+        </section> */}
 
         {/* Call to Action Section */}
         <section className="mt-16 text-center">
