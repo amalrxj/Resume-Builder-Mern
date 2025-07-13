@@ -37,7 +37,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
     const actualBaseWidth = resumeRef.current.offsetWidth;
     setBaseWidth(actualBaseWidth);
     setScale(containerWidth / baseWidth);
-  }, [containerWidth]);
+  }, [containerWidth, baseWidth]);
 
   return (
     <div
@@ -63,7 +63,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
               {resumeData.profileInfo.profilePreviewUrl ? (
                 <img
                   src={resumeData.profileInfo.profilePreviewUrl}
-                  className="w-[90px] h-[90px] object-cover rounded-full"
+                  className="w-[90px] h-[90px] rounded-full object-contain"
                 />
               ) : (
                 <div
@@ -84,9 +84,9 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
           <div className="my-6 mx-6">
             <div className="flex flex-col gap-4">
               <ContactInfo
-                icon={<LuMapPinHouse />}
+                icon={<LuMail />}
                 iconBG={themeColors[2]}
-                value={resumeData.profileInfo.email}
+                value={resumeData?.profileInfo?.email || ""}
               />
             </div>
           </div>
