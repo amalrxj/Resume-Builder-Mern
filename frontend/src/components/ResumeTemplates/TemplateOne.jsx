@@ -11,6 +11,10 @@ import {
 import { RiLinkedinLine } from "react-icons/ri";
 import { useRef, useState, useEffect } from "react";
 import ContactInfo from "../ResumeSections/ContactInfo";
+import EducationInfo from "../ResumeSections/EducationInfo";
+import LanguageSection from "../ResumeSections/languageSection";
+import { formatYearMonth } from "../../utils/helper";
+import WorkExperience from "../ResumeSections/WorkExperience";
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#00B8DB", "#4A5565"];
 
@@ -18,7 +22,7 @@ const Title = ({ color, text }) => {
   return (
     <div className="relative w-fit mb-2.5">
       <span
-        className="absolute bottom-0 left-0 w-full h-2"
+        className="absolute bottom-0 left-0 w-full h-1.5"
         style={{ backgroundColor: color }}
       ></span>
       <h2 className={`relative text-sm font-bold`}>{text}</h2>
@@ -63,7 +67,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
               {resumeData.profileInfo.profilePreviewUrl ? (
                 <img
                   src={resumeData.profileInfo.profilePreviewUrl}
-                  className="w-[90px] h-[90px] rounded-full object-contain"
+                  className="w-[90px] h-[90px] rounded-full object-cover"
                 />
               ) : (
                 <div
@@ -84,14 +88,90 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
           <div className="my-6 mx-6">
             <div className="flex flex-col gap-4">
               <ContactInfo
+                icon={<LuMapPinHouse />}
+                iconBG={themeColors[2]}
+                value={resumeData?.contactInfo?.location || ""}
+              />
+              <ContactInfo
                 icon={<LuMail />}
                 iconBG={themeColors[2]}
-                value={resumeData?.profileInfo?.email || ""}
+                value={resumeData?.contactInfo?.email || ""}
+              />
+              <ContactInfo
+                icon={<LuPhone />}
+                iconBG={themeColors[2]}
+                value={resumeData?.contactInfo?.phone || ""}
+              />
+              {resumeData?.contactInfo?.linkedin && (
+                <ContactInfo
+                  icon={<RiLinkedinLine />}
+                  iconBG={themeColors[2]}
+                  value={resumeData?.contactInfo?.linkedin || ""}
+                />
+              )}
+              {resumeData?.contactInfo?.website && (
+                <ContactInfo
+                  icon={<LuRss />}
+                  iconBG={themeColors[2]}
+                  value={resumeData?.contactInfo?.website || ""}
+                />
+              )}
+              {resumeData?.contactInfo?.github && (
+                <ContactInfo
+                  icon={<LuGithub />}
+                  iconBG={themeColors[2]}
+                  value={resumeData?.contactInfo?.github || ""}
+                />
+              )}
+            </div>
+
+            <div className="mt-5">
+              <Title text="Education" color={themeColors[1]} />
+              {resumeData.education.map((edu, index) => (
+                <EducationInfo
+                  key={`education_${index}`}
+                  degree={edu.degree}
+                  institution={edu.institution}
+                  duration={`${formatYearMonth(
+                    edu.startDate
+                  )} - ${formatYearMonth(edu.endDate)}`}
+                />
+              ))}
+            </div>
+
+            <div className="mt-5">
+              <Title text="Languages" color={themeColors[1]} />
+              <LanguageSection
+                languages={resumeData.languages}
+                accentColor={themeColors[3]}
+                bgColor={themeColors[2]}
               />
             </div>
           </div>
         </div>
-        <div className="col-span-8 pt-10 mr-10 pb-5"></div>
+        <div className="col-span-8 pt-10 mr-10 pb-5">
+          <div>
+            <Title text="Summary" color={themeColors[1]} />
+            <p className="text-sm font-medium">
+              {resumeData.profileInfo.summary}
+            </p>
+          </div>
+          <div className="mt-4">
+            <Title text="Work Experience" color={themeColors[1]} />
+            {resumeData.workExperience.map((work, index) => (
+              <WorkExperience
+                key={`work_${index}`}
+                company={work.company}
+                role={work.role}
+                duration={`${formatYearMonth(
+                  work.startDate
+                )} - ${formatYearMonth(work.endDate)}`}
+                durationColor={themeColors[4]}
+                description={work.description}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
